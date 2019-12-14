@@ -1,6 +1,8 @@
 package com.manickchand.lmevent.model
 
-class People {
+import java.io.Serializable
+
+class People : Serializable {
 
     var id:String?
     var name:String?

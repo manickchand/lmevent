@@ -1,9 +1,10 @@
 package com.manickchand.lmevent.model
 
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Event {
+class Event : Serializable {
 
     var id:String?
     var title:String?

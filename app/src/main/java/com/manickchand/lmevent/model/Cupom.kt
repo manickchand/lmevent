@@ -1,6 +1,8 @@
 package com.manickchand.lmevent.model
 
-class Cupom {
+import java.io.Serializable
+
+class Cupom : Serializable {
 
     var id:String?
     var discount:Int?

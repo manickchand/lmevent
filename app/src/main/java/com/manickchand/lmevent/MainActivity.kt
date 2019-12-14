@@ -1,5 +1,6 @@
 package com.manickchand.lmevent
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import com.manickchand.lmevent.adapter.EventsAdapter
 import com.manickchand.lmevent.interfaces.IserviceRetrofit
 import com.manickchand.lmevent.interfaces.RecyclerViewOnClickListenerHack
 import com.manickchand.lmevent.model.Event
+import com.manickchand.lmevent.util.KEY_EVENT
 import com.manickchand.lmevent.util.RetrofitInit
 import com.manickchand.lmevent.util.TAG_DEBUC
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,25 +45,21 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
 
         var call = this.mIserviceRetrofit.getAllEvents()
 
-//        try {
-           call.enqueue(object : Callback<List<Event>> {
-               override fun onResponse(call: Call<List<Event>>?, response: Response<List<Event>>?) {
+       call.enqueue(object : Callback<List<Event>> {
+           override fun onResponse(call: Call<List<Event>>?, response: Response<List<Event>>?) {
 
-                   mList = response!!.body()!!
-                   setAdapret()
+               mList = response!!.body()!!
+               setAdapret()
 
-                   for(res in response!!.body()!!){
-                       Log.i(TAG_DEBUC,"response: "+res.image)
-                   }
+               for(res in response!!.body()!!){
+                   Log.i(TAG_DEBUC,"response: "+res.image)
                }
-               override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
-                   Log.i(TAG_DEBUC,"Erro ao pegar url "+t.toString())
-               }
-           })
-//        }catch (ex:Exception) {
-//            Log.i(TAG_DEBUC,"error: "+ex.message)
-//            ex.printStackTrace()
-//        }
+           }
+           override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
+               Log.i(TAG_DEBUC,"Erro ao pegar url "+t.toString())
+           }
+       })
+
     }
 
     fun setAdapret(){
@@ -73,6 +71,9 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
     }
 
     override fun onClickListener(v: View?, position: Int) {
-        Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, EventDetailActivity::class.java)
+        intent.putExtra(KEY_EVENT, this.mList.get(position))
+        startActivity(intent)
+//        Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
     }
 }

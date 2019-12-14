@@ -17,14 +17,14 @@ class EventsAdapter(context: Context,
                     list: List<Event>) : RecyclerView.Adapter<EventsAdapter.MyViewHolder?>() {
 
     var mContext =context
-    var mLista = list
+    var mList = list
     var mlayoutInflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater //
     var mReciclerViewOnClickListenerHack: RecyclerViewOnClickListenerHack? = null // interface de click
     lateinit var view: View
 
     //infla view da linha
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        view = mlayoutInflater.inflate(R.layout.item_row,parent,false)// qual layout vai ter cada linha
+        view = mlayoutInflater.inflate(R.layout.item_row,parent,false)
         return MyViewHolder(view)
     }
 
@@ -33,47 +33,40 @@ class EventsAdapter(context: Context,
 
         //tenta carregar img
         try {
-            Picasso.get().load(mLista.get(position).image).error(R.drawable.placeholder).into(holder.ivEvent);
+            Picasso.get().load(mList.get(position).image)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .into(holder.ivEvent)
         }catch (e:Exception){
             e.stackTrace
         }
-
-        holder.tvTitle.text = mLista.get(position).title
-        holder.tvDate.text = mLista.get(position).date.toString()
-        holder.tvPrice.text = mLista.get(position).price.toString()
+        holder.tvTitle.text = mList.get(position).title
     }
 
     override fun getItemCount(): Int {
-        return mLista.size
+        return mList.size
     }
 
     fun setReciclerViewOnClickListenerHack(r: RecyclerViewOnClickListenerHack) {
         this.mReciclerViewOnClickListenerHack = r
     }
 
-    // inner class para poder acessar os metodos e atributos da classe pai
     inner class MyViewHolder(itemView:View): RecyclerView.ViewHolder(itemView),View.OnClickListener{
 
         val ivEvent: ImageView
         var tvTitle: TextView
-        var tvDate:TextView
-        var tvPrice:TextView
 
-        // bloco de inicializacao
         init {
             itemView.setOnClickListener(this)
             ivEvent = itemView.iv_event
             tvTitle = itemView.tv_title
-            tvDate = itemView.tv_date
-            tvPrice = itemView.tv_price
         }
 
         // clickListener de cada posicao do adapter
         override fun onClick(v: View?) {
             if (mReciclerViewOnClickListenerHack != null) {
-                mReciclerViewOnClickListenerHack!!.onClickListener(v!!, adapterPosition);
+                mReciclerViewOnClickListenerHack!!.onClickListener(v!!, adapterPosition)
             }
         }
     }
-
 }
