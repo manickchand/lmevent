@@ -1,5 +1,6 @@
 package com.manickchand.lmevent
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -40,8 +41,9 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (mEvent != null) {
             this.initData(mEvent)
             fab.setOnClickListener { view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                this.shareEvent(mEvent.description!!)
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
             }
         }else{
             Toast.makeText(this,"Erro ao carregar detalhes",Toast.LENGTH_SHORT).show()
@@ -87,5 +89,17 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             ).title(getString(R.string.event_location))
         )
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(this.lat,this.lng), 14f))
+    }
+
+    fun shareEvent(description:String){
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, description)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }
