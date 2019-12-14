@@ -3,6 +3,7 @@ package com.manickchand.lmevent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manickchand.lmevent.adapter.EventsAdapter
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
     init {
         this.mRetrofit = RetrofitInit().getClient()
         this.mIserviceRetrofit = this.mRetrofit.create(IserviceRetrofit::class.java)
-        this.mList = ArrayList<Event>()
+        this.mList = ArrayList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
                    setAdapret()
 
                    for(res in response!!.body()!!){
-                       Log.i(TAG_DEBUC,"response: "+res.title)
+                       Log.i(TAG_DEBUC,"response: "+res.image)
                    }
                }
                override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
@@ -72,6 +73,6 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
     }
 
     override fun onClickListener(v: View?, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, "Clicado", Toast.LENGTH_SHORT).show()
     }
 }

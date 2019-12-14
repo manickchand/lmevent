@@ -33,7 +33,7 @@ class EventsAdapter(context: Context,
 
         //tenta carregar img
         try {
-            Picasso.get().load(mLista.get(position).image).error(R.mipmap.ic_launcher_round).into(holder.ivEvent);
+            Picasso.get().load(mLista.get(position).image).error(R.drawable.placeholder).into(holder.ivEvent);
         }catch (e:Exception){
             e.stackTrace
         }
