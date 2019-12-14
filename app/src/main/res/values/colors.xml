@@ -5,6 +5,6 @@
     <color name="colorAccent">#ffcd00</color>
     <color name="colorBgTitle">#98000000</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorTitleDetail">#4A4A4A</color>
+    <color name="colorTextDark">#4A4A4A</color>
 
 </resources>
