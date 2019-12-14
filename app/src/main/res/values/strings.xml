@@ -6,5 +6,7 @@
     <string name="event_location">Local do evento</string>
     <string name="checkin">Checkin</string>
     <string name="error_get_all_events">Erro ao pegar os eventos.</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="has_error">ocorreu um erro</string>
 
 </resources>
