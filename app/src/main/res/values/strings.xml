@@ -2,7 +2,7 @@
     <string name="app_name">LMevent</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
     <string name="google_maps_key">AIzaSyAXyUIxLOex_u-cMJn7aI_0r9IBDWmIX5c</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_about">Sobre</string>
     <string name="event_location">Local do evento</string>
     <string name="checkin">Checkin</string>
     <string name="error_get_all_events">Erro ao pegar os eventos.</string>
