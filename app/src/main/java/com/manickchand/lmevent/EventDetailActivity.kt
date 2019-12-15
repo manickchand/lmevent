@@ -16,7 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import com.manickchand.lmevent.interfaces.IserviceRetrofit
+import com.manickchand.lmevent.model.CheckinDTO
 import com.manickchand.lmevent.model.Event
 import com.manickchand.lmevent.util.KEY_EVENT
 import com.manickchand.lmevent.util.RetrofitInit
@@ -152,21 +154,29 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if(name.isNotEmpty()
             && email.isNotEmpty()){
 
-            var call = this.mIserviceRetrofit.getAllEvents()
+            val checkinDTO = CheckinDTO(eventId,name,email)
 
-            call.enqueue(object : Callback<List<Event>> {
-                override fun onResponse(call: Call<List<Event>>?, response: Response<List<Event>>?) {
+            var call = this.mIserviceRetrofit.eventCheckin(checkinDTO)
 
+            fl_load.visibility = View.VISIBLE
 
+            call.enqueue(object : Callback<CheckinDTO> {
+                override fun onResponse(call: Call<CheckinDTO>?, response: Response<CheckinDTO>?) {
 
+                    fl_load.visibility = View.GONE
 
-
+                    Snackbar.make(containerdetail, R.string.success_checkin, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
 
                 }
-                override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
+                override fun onFailure(call: Call<CheckinDTO>?, t: Throwable?) {
 
+                    fl_load.visibility = View.GONE
 
-                    Log.i(TAG_DEBUC,"[Error getAllEvents] "+t.toString())
+                    Snackbar.make(containerdetail, R.string.error_checkin, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+
+                    Log.i(TAG_DEBUC,"[Error eventCheckin] "+t.toString())
                 }
             })
 

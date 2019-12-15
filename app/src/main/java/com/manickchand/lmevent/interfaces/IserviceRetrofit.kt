@@ -1,5 +1,6 @@
 package com.manickchand.lmevent.interfaces
 
+import com.manickchand.lmevent.model.CheckinDTO
 import com.manickchand.lmevent.model.Event
 import retrofit2.Call
 import retrofit2.http.*
@@ -13,8 +14,6 @@ interface IserviceRetrofit {
     fun getEventById(@Path("id") id:Int): Call<Event>
 
     @Headers( "content-type: application/json;" )
-    @POST("authentication/register")
-    fun eventCheckin(@Query("eventId") eventId:String,
-                 @Query("name") name:String,
-                 @Query("email") email:String):Call<Boolean>
+    @POST("checkin")
+    fun eventCheckin(@Body body:CheckinDTO):Call<CheckinDTO>
 }
