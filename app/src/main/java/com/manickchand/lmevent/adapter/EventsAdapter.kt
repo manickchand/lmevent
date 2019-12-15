@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ class EventsAdapter(context: Context,
     var mlayoutInflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater //
     var mReciclerViewOnClickListenerHack: RecyclerViewOnClickListenerHack? = null // interface de click
     lateinit var view: View
+    private var lastPosition = -1
 
     //infla view da linha
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -41,6 +44,17 @@ class EventsAdapter(context: Context,
             e.stackTrace
         }
         holder.tvTitle.text = mList.get(position).title
+
+        setAnimation(holder.itemView, position);
+    }
+
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        if (position > lastPosition) {
+            val animation: Animation =
+                AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     override fun getItemCount(): Int {
