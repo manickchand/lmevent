@@ -7,13 +7,13 @@ import kotlinx.android.parcel.Parcelize
 data class Event(
     val id: String? = null,
     val title: String? = "",
-    val description: String = "",
-    val image: String = "",
+    val description: String? = "",
+    val image: String? = "",
     val date: Long? = null,
-    val price: Double = 0.0,
+    val price: Double? = 0.0,
     val longitude: Double? = 0.0,
     val latitude: Double? = 0.0,
-    val people: List<People>,
-    val cupons: List<Cupom>
+    val people: List<People>?,
+    val cupons: List<Cupom>?
 
 ) : Parcelable

@@ -51,6 +51,7 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_event_detail)
         setSupportActionBar(toolbar)
 
+        //BOTAO DE VOLTAR NA TOOLBAR
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
@@ -58,14 +59,15 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
 
+        //RECUPERA EVENTO PASSADO DA MAIN
         var mEvent = intent.getParcelableExtra(KEY_EVENT) as Event
         if (mEvent != null) {
             this.initData(mEvent)
-            fab.setOnClickListener { view ->
-                this.shareEvent(mEvent.description!!)
+            fab.setOnClickListener {
+                this.shareEvent(mEvent.description)
             }
-            btn_checkin.setOnClickListener { view ->
-                this.dialogCheckin(mEvent.id!!)
+            btn_checkin.setOnClickListener {
+                this.dialogCheckin(mEvent.id ?: "")
             }
         }else{
             Toast.makeText(this,R.string.error_details,Toast.LENGTH_SHORT).show()
@@ -73,16 +75,18 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    //SETA DADOS NA VIEW
     private fun initData(mEvent:Event){
         setTitle("")
         tv_title_detail.text = mEvent.title
-        tv_date_detail.text = convertDate(mEvent.date!!)
+        tv_date_detail.text = convertDate(mEvent.date)
         tv_description_detail.text = mEvent.description
-        this.getImage(mEvent.image!!)
-        this.loadMap(mEvent.latitude!!,mEvent.longitude!!)
+        this.getImage(mEvent.image ?: "")
+        this.loadMap(mEvent.latitude,mEvent.longitude)
     }
 
-    fun getImage(urlImage:String){
+    //CARREGA IMAGEM DO EVENTO
+    private fun getImage(urlImage:String){
         try {
             Picasso.get().load(urlImage)
                 .placeholder(R.drawable.placeholder)
@@ -93,14 +97,16 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    fun loadMap(lat:Double,lng:Double){
-        this.lat = lat
-        this.lng = lng
+    //INICIALIZA MAPA
+    private fun loadMap(lat:Double?,lng:Double?){
+        this.lat = lat ?: 0.0
+        this.lng = lng ?: 0.0
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
     }
 
+    //ADICIONA MARCADOR E MOVE CAMERA DO MAPA
     override fun onMapReady(map: GoogleMap?) {
         map!!.addMarker(
             MarkerOptions().position(
@@ -110,14 +116,15 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             ).title(getString(R.string.event_location))
         )
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(this.lat,this.lng), 14f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(this.lat,this.lng), 18f))
     }
 
-    fun shareEvent(description:String){
+    //COMPARTILHA DESCRICAO DO EVENTO
+    private fun shareEvent(description:String?){
 
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, description)
+            putExtra(Intent.EXTRA_TEXT, description ?: "")
             type = "text/plain"
         }
 
@@ -125,7 +132,8 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         startActivity(shareIntent)
     }
 
-    fun dialogCheckin(eventId:String){
+    //CRIA MODAL DE CHECKIN
+    private fun dialogCheckin(eventId:String){
 
         val builder = AlertDialog.Builder(this)
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -139,7 +147,6 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val email = modal.et_email.text.toString()
 
             checkin(name,email,eventId)
-
         })
 
         modal.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), DialogInterface.OnClickListener { dialog, id ->
@@ -149,7 +156,8 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         modal.show()
     }
 
-    fun checkin(name:String, email:String, eventId:String){
+    //FAZ POST DE CHECKIN
+    private fun checkin(name:String, email:String, eventId:String){
 
         if(name.isNotEmpty()
             && email.isNotEmpty()){

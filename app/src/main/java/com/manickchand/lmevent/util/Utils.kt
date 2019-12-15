@@ -26,8 +26,12 @@ fun hasInternet(context: Context?): Boolean {
     }
 }
 
-fun convertDate(time:Long):String{
-    val date = Date(time)
-    val format = SimpleDateFormat("dd/MM/yyyy")
-    return format.format(date)
+fun convertDate(time:Long?):String{
+    if(time != null){
+        val date = Date(time)
+        val format = SimpleDateFormat("dd/MM/yyyy")
+        return format.format(date)
+    }else{
+        return "01/01/1970"
+    }
 }

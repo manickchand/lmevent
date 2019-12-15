@@ -38,12 +38,13 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //SETA LINEARLAYOUT NO RECYCLERVIEW
         val llm = LinearLayoutManager(this)
         llm.orientation = LinearLayoutManager.VERTICAL
         rv_events.setHasFixedSize(true)
         rv_events.layoutManager = llm
 
-        //click no btn de erro
+        //CLICK NO BTN DE ERRO
         btn_try_again.setOnClickListener { hasNetwork()}
 
         this.hasNetwork()
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         }
     }
 
+    //VERIFICA SE HA CONEXAO COM A INTERNET PARA REQUISITAR EVENTOS
     fun hasNetwork(){
         if(hasInternet(this)){
             hasError(false)
@@ -78,6 +80,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         }
     }
 
+    // CASO TRUE MOSTRA LAYOUT DE ERRO, SENAO MOSTRA RECYCLERVIEW
     fun hasError(error:Boolean){
         if(error){
             swiperefresh.visibility = View.GONE
@@ -89,6 +92,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         }
     }
 
+    //REQUISITA TODOS OS EVENTOS
     fun requestEvents(){
         swiperefresh.isRefreshing = true
 
@@ -97,12 +101,17 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         call.enqueue(object : Callback<List<Event>> {
             override fun onResponse(call: Call<List<Event>>?, response: Response<List<Event>>?) {
 
-                hasError(false)
-
-                mList = response!!.body()!!
-                setAdapter()
-
                 swiperefresh.isRefreshing = false
+
+                val temp = response!!.body()
+
+                if(temp != null){
+                    hasError(false)
+                    mList = temp
+                    setAdapter()
+                }else{
+                    hasError(true)
+                }
             }
             override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
                 swiperefresh.isRefreshing = false
@@ -112,6 +121,7 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         })
     }
 
+    //INSTANCIA ADAPTER PASSANDO LISTA DE EVENTOS
     fun setAdapter(){
         var adapter = EventsAdapter(this,mList)
         adapter.setReciclerViewOnClickListenerHack(this)
@@ -119,9 +129,11 @@ class MainActivity : AppCompatActivity(),RecyclerViewOnClickListenerHack {
         adapter.notifyDataSetChanged()
     }
 
+    //CLICK NO ITEM DA LISTA, REDIRECIONA PARA DETALHES
     override fun onClickListener(v: View?, position: Int) {
         val intent = Intent(this, EventDetailActivity::class.java)
         intent.putExtra(KEY_EVENT, this.mList[position])
         startActivity(intent)
     }
+
 }
