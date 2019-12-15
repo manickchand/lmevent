@@ -1,9 +1,14 @@
 package com.manickchand.lmevent
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,13 +16,14 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.snackbar.Snackbar
 import com.manickchand.lmevent.model.Event
 import com.manickchand.lmevent.util.KEY_EVENT
+import com.manickchand.lmevent.util.TAG_DEBUC
 import com.manickchand.lmevent.util.convertDate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.content_event_detail.*
+import kotlinx.android.synthetic.main.dialog_checkin.*
 
 
 class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -42,8 +48,9 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             this.initData(mEvent)
             fab.setOnClickListener { view ->
                 this.shareEvent(mEvent.description!!)
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
+            }
+            btn_checkin.setOnClickListener { view ->
+                this.dialogCheckin(mEvent.id!!)
             }
         }else{
             Toast.makeText(this,"Erro ao carregar detalhes",Toast.LENGTH_SHORT).show()
@@ -101,5 +108,34 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val shareIntent = Intent.createChooser(sendIntent, null)
         startActivity(shareIntent)
+    }
+
+    fun dialogCheckin(eventId:String){
+
+        val builder = AlertDialog.Builder(this)
+        val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        builder.setView(inflater.inflate(R.layout.dialog_checkin, null))
+            .setPositiveButton("Confirmar",
+                DialogInterface.OnClickListener { dialog, id ->
+
+                    TODO("ESTA DANDO ERRO")
+                    if(et_name.text.toString().isNotEmpty() && et_email.text.toString().isNotEmpty()){
+                        checkin(et_name.text.toString(),et_email.text.toString(),eventId)
+                    }else{
+                        Toast.makeText(this,"Preencha nome e email.",Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            .setNeutralButton("Cancelar",
+                DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+        builder.create()
+        builder.show()
+    }
+
+    fun checkin(name:String, email:String, eventId:String){
+        Log.i(TAG_DEBUC,"checkin "+name)
     }
 }

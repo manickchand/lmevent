@@ -1,8 +1,6 @@
 package com.manickchand.lmevent.model
 
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.ArrayList
 
 class Event : Serializable {
 
