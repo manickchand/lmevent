@@ -16,4 +16,6 @@
     <string name="cancel">Cancelar</string>
     <string name="your_checkin">Faça seu checkin</string>
     <string name="error_details">Erro ao carregar detalhes</string>
+    <string name="name_email">Preencha nome e email.</string>
+
 </resources>

@@ -1,30 +1,19 @@
 package com.manickchand.lmevent.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class Event : Serializable {
+@Parcelize
+data class Event(
+    val id: String? = null,
+    val title: String? = "",
+    val description: String = "",
+    val image: String = "",
+    val date: Long? = null,
+    val price: Double = 0.0,
+    val longitude: Double? = 0.0,
+    val latitude: Double? = 0.0,
+    val people: List<People>,
+    val cupons: List<Cupom>
 
-    var id:String?
-    var title:String?
-    var description:String?
-    var date: Long?
-    var image:String?
-    var latitude:Double?
-    var longitude:Double?
-    var price:Double?
-    var cupons:List<Cupom>
-    var peoples:List<People>
-
-    init {
-        this.id=null
-        this.title=null
-        this.description=null
-        this.date=null
-        this.image=null
-        this.latitude=null
-        this.longitude=null
-        this.price=null
-        this.cupons=ArrayList<Cupom>()
-        this.peoples=ArrayList<People>()
-    }
-}
+) : Parcelable

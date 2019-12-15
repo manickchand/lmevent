@@ -1,18 +1,14 @@
 package com.manickchand.lmevent.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class People : Serializable {
+@Parcelize
+class People (
 
-    var id:String?
-    var name:String?
-    var eventId:String?
-    var picture:String?
+    var id:String? = null,
+    var name:String = "",
+    var eventId:String? = null,
+    var picture:String? = null
 
-    init {
-        this.id=null
-        this.name=null
-        this.eventId=null
-        this.picture=null
-    }
-}
+) : Parcelable

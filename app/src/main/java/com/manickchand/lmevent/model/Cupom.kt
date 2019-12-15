@@ -1,16 +1,13 @@
 package com.manickchand.lmevent.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-class Cupom : Serializable {
+@Parcelize
+data class Cupom  (
 
-    var id:String?
-    var discount:Int?
-    var eventId:String?
+    var id:String? = null,
+    var discount:Int = 0,
+    var eventId:String? = null
 
-    init {
-        this.id=null
-        this.discount=null
-        this.eventId=null
-    }
-}
+): Parcelable

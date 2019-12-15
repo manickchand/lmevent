@@ -16,20 +16,33 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.manickchand.lmevent.interfaces.IserviceRetrofit
 import com.manickchand.lmevent.model.Event
 import com.manickchand.lmevent.util.KEY_EVENT
+import com.manickchand.lmevent.util.RetrofitInit
 import com.manickchand.lmevent.util.TAG_DEBUC
 import com.manickchand.lmevent.util.convertDate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_event_detail.*
 import kotlinx.android.synthetic.main.content_event_detail.*
 import kotlinx.android.synthetic.main.dialog_checkin.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 
 class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    var mRetrofit: Retrofit
+    var mIserviceRetrofit: IserviceRetrofit
     var lat:Double=0.0
     var lng:Double=0.0
+
+    init {
+        this.mRetrofit = RetrofitInit().getClient()
+        this.mIserviceRetrofit = this.mRetrofit.create(IserviceRetrofit::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +56,7 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
 
-        var mEvent = intent.getSerializableExtra(KEY_EVENT) as Event
+        var mEvent = intent.getParcelableExtra(KEY_EVENT) as Event
         if (mEvent != null) {
             this.initData(mEvent)
             fab.setOnClickListener { view ->
@@ -116,26 +129,50 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         builder.setView(inflater.inflate(R.layout.dialog_checkin, null))
-            .setPositiveButton(R.string.confirm,
-                DialogInterface.OnClickListener { dialog, id ->
+        val modal = builder.create()
 
-                    TODO("ESTA DANDO ERRO")
-                    if(et_name.text.toString().isNotEmpty() && et_email.text.toString().isNotEmpty()){
-                        checkin(et_name.text.toString(),et_email.text.toString(),eventId)
-                    }else{
-                        Toast.makeText(this,"Preencha nome e email.",Toast.LENGTH_SHORT).show()
-                    }
+        modal.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.confirm), DialogInterface.OnClickListener { dialog, id ->
 
-                })
-            .setNeutralButton(R.string.cancel,
-                DialogInterface.OnClickListener { dialog, id ->
-                    dialog.cancel()
-                })
-        builder.create()
-        builder.show()
+            val name = modal.et_name.text.toString()
+            val email = modal.et_email.text.toString()
+
+            checkin(name,email,eventId)
+
+        })
+
+        modal.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), DialogInterface.OnClickListener { dialog, id ->
+            modal.cancel()
+        })
+
+        modal.show()
     }
 
     fun checkin(name:String, email:String, eventId:String){
-        Log.i(TAG_DEBUC,"checkin "+name)
+
+        if(name.isNotEmpty()
+            && email.isNotEmpty()){
+
+            var call = this.mIserviceRetrofit.getAllEvents()
+
+            call.enqueue(object : Callback<List<Event>> {
+                override fun onResponse(call: Call<List<Event>>?, response: Response<List<Event>>?) {
+
+
+
+
+
+
+                }
+                override fun onFailure(call: Call<List<Event>>?, t: Throwable?) {
+
+
+                    Log.i(TAG_DEBUC,"[Error getAllEvents] "+t.toString())
+                }
+            })
+
+        }else{
+            Toast.makeText(this,R.string.name_email,Toast.LENGTH_SHORT).show()
+        }
     }
+
 }
