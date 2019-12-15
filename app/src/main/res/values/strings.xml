@@ -8,5 +8,12 @@
     <string name="error_get_all_events">Erro ao pegar os eventos.</string>
     <string name="try_again">Tentar novamente</string>
     <string name="has_error">ocorreu um erro</string>
-
+    <string name="developer">Desenvolvido por</string>
+    <string name="icon">Icones</string>
+    <string name="name">Nome</string>
+    <string name="email">Email</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="your_checkin">Faça seu checkin</string>
+    <string name="error_details">Erro ao carregar detalhes</string>
 </resources>

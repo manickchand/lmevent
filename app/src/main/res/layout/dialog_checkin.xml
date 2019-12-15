@@ -6,7 +6,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:text="Faça seu checkim"
+        android:text="@string/your_checkin"
         android:textSize="26sp"
         android:gravity="center"
         android:textColor="@color/colorWhite"
@@ -16,20 +16,15 @@
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="4dp"
-        android:hint="nome" />
+        android:layout_margin="@dimen/margin_default"
+        android:hint="@string/name" />
     <EditText
         android:id="@+id/et_email"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:hint="email"/>
+        android:hint="@string/email"/>
 
 </LinearLayout>

@@ -53,7 +53,7 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 this.dialogCheckin(mEvent.id!!)
             }
         }else{
-            Toast.makeText(this,"Erro ao carregar detalhes",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,R.string.error_details,Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -116,7 +116,7 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         builder.setView(inflater.inflate(R.layout.dialog_checkin, null))
-            .setPositiveButton("Confirmar",
+            .setPositiveButton(R.string.confirm,
                 DialogInterface.OnClickListener { dialog, id ->
 
                     TODO("ESTA DANDO ERRO")
@@ -127,7 +127,7 @@ class EventDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                 })
-            .setNeutralButton("Cancelar",
+            .setNeutralButton(R.string.cancel,
                 DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                 })

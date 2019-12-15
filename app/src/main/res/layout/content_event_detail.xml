@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_margin="@dimen/margin_default">
 
         <TextView
             android:id="@+id/tv_title_detail"
@@ -29,7 +29,7 @@
             android:id="@+id/tv_date_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="12/12/12"
+            android:text="12/06/1994"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/tv_title_detail"
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="description"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_default"
             app:layout_constraintTop_toBottomOf="@id/tv_date_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="@string/event_location"
             android:textColor="@color/colorTextDark"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_default"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/tv_description_detail"
@@ -79,7 +79,7 @@
             android:background="@color/colorAccent"
             android:text="@string/checkin"
             android:textColor="@color/colorWhite"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_default"
             app:layout_constraintTop_toBottomOf="@+id/map"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
